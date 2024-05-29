@@ -1,0 +1,13 @@
+<h1>Lista de Productos</h1>
+{{#if products.length}}
+    {{#each products}}
+    <div>
+        <p>Producto: {{title}}</p>
+        <p>Precio: {{price}}</p>
+    <br>
+    </div>
+    {{/each}}
+{{else}}
+    <p>No hay productos agregados</p>
+{{/if}}
+{{!-- <script src="js/index.js"></script> --}}
