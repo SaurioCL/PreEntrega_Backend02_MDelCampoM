@@ -30,13 +30,9 @@ export const create = async () => {
   }
 };
 
-export const update = async (cartId, obj) => {
+export const update = async (id, obj) => {
   try {
-    const existProd = await prodDao.getById(obj._id);
-    if (!existProd) {
-      throw new Error(`El producto con id ${obj._id} no existe.`);
-    }
-    return await cartDao.update(cartId, obj);
+    return await cartDao.update(id, obj);
   } catch (error) {
     console.log(error);
   }
