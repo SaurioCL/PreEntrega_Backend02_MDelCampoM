@@ -1,29 +1,39 @@
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
+import passport from 'passport';
 import userRouter from './routes/usersRouter.js';
+import authRouter from './routes/authRouter.js';
 import cartsRouter from './routes/cartRouter.js';
 import productsRouter from './routes/productRouter.js';
-import { errorHandler } from './middlewares/errorHandler.js';
+import { initializePassport } from './config/passportConfig.js';
 import { initMongoDB } from './db/database.js';
+import { errorHandler } from './middlewares/errorHandler.js';
 
-// Crear una instancia de Express
 const app = express();
+const PORT = 8080;
 
-// Middleware para el manejo de JSON
+// Express
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(express.static("public"));
 app.use(morgan('dev'));
+app.use(errorHandler);
 
-// Montar los routers en las rutas correspondientes
-app.use('/users', userRouter);
+// Passport
+initializePassport();
+app.use(passport.initialize());
+
+// Routes
+app.use('/api/users', userRouter);
+app.use('/api/auth', authRouter);
 app.use('/products', productsRouter);
 app.use('/carts', cartsRouter);
 
-app.use(errorHandler);
-
+// Mongo
 initMongoDB();
 
-// Iniciar el servidor
-const PORT = 8080;
-
-app.listen(PORT, () => console.log(`Servidor escuchando en el puerto ${PORT}`));
+app.listen(PORT, () => {
+    console.log(`Servidor escuchando en el puerto ${PORT}`)
+});

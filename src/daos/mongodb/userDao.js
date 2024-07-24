@@ -1,11 +1,11 @@
-import { UserModel } from "./models/userModel.js";
+import { userModel } from "./models/userModel.js";
 
 export default class UserDaoMongoDB {
 
 
   async getByEmail(email) {
     try {
-      const response = await UserModel.find({ email: email });
+      const response = await userModel.find({ email: email });
       return response;
     } catch (error) {
       console.log(error);
@@ -14,7 +14,7 @@ export default class UserDaoMongoDB {
 
   async getById(id) {
     try {
-      const response = await UserModel.findById(id).populate("cart");
+      const response = await userModel.findById(id).populate("cart");
       return response;
     } catch (error) {
       console.log(error);
@@ -23,7 +23,7 @@ export default class UserDaoMongoDB {
 
   async getAll(page = 1, limit = 10) {
     try {
-      const response = await UserModel.paginate({}, { page, limit });
+      const response = await userModel.paginate({}, { page, limit });
       return response;
     } catch (error) {
       console.log(error);
@@ -32,7 +32,7 @@ export default class UserDaoMongoDB {
 
   async create(obj) {
     try {
-      const response = await UserModel.create(obj);
+      const response = await userModel.create(obj);
       return response;
     } catch (error) {
       console.log(error);
@@ -41,7 +41,7 @@ export default class UserDaoMongoDB {
 
   async update(id, obj) {
     try {
-      await UserModel.updateOne({ _id: id }, obj);
+      await userModel.updateOne({ _id: id }, obj);
       return obj;
     } catch (error) {
       console.log(error);
@@ -50,7 +50,7 @@ export default class UserDaoMongoDB {
 
   async delete(id) {
     try {
-      const response = await UserModel.findByIdAndDelete(id);
+      const response = await userModel.findByIdAndDelete(id);
       return response;
     } catch (error) {
       console.log(error);
